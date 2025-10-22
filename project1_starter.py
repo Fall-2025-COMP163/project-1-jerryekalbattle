@@ -1,13 +1,33 @@
 """
 COMP 163 - Project 1: Character Creator & Saving/Loading
-Name: [Your Name Here]
-Date: [Date]
+Name: Jerryeka Battle
+Date: 10/21/2025
 
-AI Usage: [Document any AI assistance used]
-Example: AI helped with file I/O error handling logic in save_character function
+AI Usage: Use ai to see how to format def calculate_stats i changed most of what ai gave me to add more stats to fit my added points
 """
 
 def create_character(name, character_class):
+    level = 1
+    gold = 100
+    if heritage != ' ':
+        gold += 100
+    strength, dexterity, magic, health, intelligence, wisdom, charisma = calculate_stats(character_class, level)
+    new_character = {
+        "name": name,
+        "class": character_class.capitalize(),
+        "heritage": heritage,
+        "level": level,
+        "strength": strength,
+        "dexterity": dexterity,
+        "magic": magic,
+        "health": health,
+        "intelligence": intelligence,
+        "wisdom": wisdom,
+        "charisma": charisma,
+        "gold": gold
+    }
+    return new_character
+
     """
     Creates a new character dictionary with calculated stats
     Returns: dictionary with keys: name, class, level, strength, magic, health, gold
@@ -21,6 +41,66 @@ def create_character(name, character_class):
     pass
 
 def calculate_stats(character_class, level):
+    strength = 10
+    dexterity = 17
+    magic = 4
+    health = 10
+    intelligence = 16
+    wisdom = 14
+    charisma = 18
+    if character_class.lower() == "warrior":
+        strength += 6
+        dexterity += 2
+        magic += 0
+        health += 2
+        intelligence  += 1
+        wisdom += 1
+        charisma -= 1
+    elif character_class.lower() == "mage":
+        strength += 2
+        dexterity += 2
+        magic += 10
+        health += 4
+        intelligence  += 8
+        wisdom += 7
+        charisma += 5
+    elif character_class.lower() == "rogue":
+        strength += 2
+        dexterity += 6
+        magic += 3
+        health += 1
+        intelligence  += 3
+        wisdom += 2
+        charisma += 3
+    elif character_class.lower() == "cleric":
+        strength += 1
+        dexterity += 1
+        magic += 4
+        health += 1
+        intelligence  += 5
+        wisdom += 1
+        charisma += 5
+    elif character_class.lower() == "Alchemist":
+        strength += 1
+        dexterity += 1
+        magic += 5
+        health += 1
+        intelligence  += 5
+        wisdom += 5
+        charisma += 3
+    else:
+        print("Invalid class! Defaulting to Warrior.")
+        character_class = 'warrior'
+        strength += 6
+        dexterity += 2
+        magic += 0
+        health += 2
+        intelligence  += 1
+        wisdom += 1
+        charisma -= 1
+
+    return (strength, dexterity, magic, health, intelligence, wisdom, charisma)
+
     """
     Calculates base stats based on class and level
     Returns: tuple of (strength, magic, health)
@@ -92,9 +172,13 @@ def level_up(character):
 
 # Main program area (optional - for testing your functions)
 if __name__ == "__main__":
+    name = input("Enter your character's name: ")
+    heritage = input("Enter your character's heritage (any or ' '):")
+    character_class = input("Choose your class (Warrior, Mage, Rogue, Cleric, Alchemist): ")
+    new_character = create_character(name, character_class)
     print("=== CHARACTER CREATOR ===")
-    print("Test your functions here!")
-    
+    for key, value in new_character.items():
+        print(f"{key.capitalize()}: {value}")
     # Example usage:
     # char = create_character("TestHero", "Warrior")
     # display_character(char)
