@@ -3,7 +3,7 @@ COMP 163 - Project 1: Character Creator & Saving/Loading
 Name: Jerryeka Battle
 Date: 10/21/2025
 
-AI Usage: work in process
+AI Usage: used to generate the file
 """
 def create_character(name, character_class, heritage=" "):
     """
@@ -61,7 +61,7 @@ def calculate_stats(character_class, level):
         strength += 1
         magic += 4
         health += 1
-    elif character_class.lower() == "alchemist":  # fixed capitalization
+    elif character_class.lower() == "alchemist":
         strength += 1
         magic += 5
         health += 1
@@ -87,11 +87,18 @@ def calculate_stats(character_class, level):
 
 def save_character(character, filename):
     import os 
-    # Check if character is a dictionary-like object
-    if type(character) != dict or filename == "":
+    import os
+
+    # Check valid input
+    if not isinstance(character, dict) or not filename:
         return False
 
-    # Use 'with' to safely open and close file
+    # Check directory validity (prevents FileNotFoundError)
+    directory = os.path.dirname(filename)
+    if directory and not os.path.exists(directory):
+        return False
+
+    # All checks passed — now safely write
     with open(filename, "w") as file:
         file.write(f"Character Name: {character['name']}\n")
         file.write(f"Class: {character['class']}\n")
@@ -100,6 +107,8 @@ def save_character(character, filename):
         file.write(f"Magic: {character['magic']}\n")
         file.write(f"Health: {character['health']}\n")
         file.write(f"Gold: {character['gold']}\n")
+
+    return True
     """
     Saves character to text file in specific format
     Returns: True if successful, False if error occurred
@@ -116,8 +125,9 @@ def save_character(character, filename):
     # TODO: Implement this function
     # Remember to handle file errors gracefully
     pass
-import os
+
 def load_character(filename):
+    import os
     """
     Loads character from text file
     Returns: character dictionary if successful, None if file not found
@@ -140,7 +150,7 @@ def load_character(filename):
                 value = int(value)
             character[key] = value
     pass
-
+    return character
 def display_character(character):
     """
     Prints formatted character sheet
