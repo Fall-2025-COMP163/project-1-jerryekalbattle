@@ -3,7 +3,7 @@ COMP 163 - Project 1: Character Creator & Saving/Loading
 Name: Jerryeka Battle
 Date: 10/21/2025
 
-AI Usage: used to generate the file
+AI Usage: used to generate the file part and check error within my code. i also used it to chamge my file to use with
 """
 def create_character(name, character_class, heritage=" "):
     """
@@ -84,6 +84,47 @@ def calculate_stats(character_class, level):
     # TODO: Implement this function
     # Return a tuple: (strength, magic, health)
     pass
+def calculate_extra_stats(character_class, level):
+    dexterity = 10
+    intelligence = 10
+    wisdom = 10
+    charisma = 10
+
+    # Adjust based on class
+    if character_class.lower() == "warrior":
+        dexterity += 2
+        intelligence += 1
+        wisdom += 1
+        charisma += 1
+    elif character_class.lower() == "mage":
+        dexterity += 1
+        intelligence += 6
+        wisdom += 5
+        charisma += 2
+    elif character_class.lower() == "rogue":
+        dexterity += 6
+        intelligence += 2
+        wisdom += 2
+        charisma += 4
+    elif character_class.lower() == "cleric":
+        dexterity += 1
+        intelligence += 3
+        wisdom += 6
+        charisma += 2
+    elif character_class.lower() == "alchemist":
+        dexterity += 3
+        intelligence += 5
+        wisdom += 3
+        charisma += 1
+    else:
+        print("Invalid class for extra stats! Defaulting to Warrior bonuses.")
+        return calculate_extra_stats("warrior", level)
+    # Add small bonus per level
+    dexterity += (level - 1)
+    intelligence += (level - 1)
+    wisdom += (level - 1)
+    charisma += (level - 1)
+    return {"dexterity": dexterity,"intelligence": intelligence,"wisdom": wisdom,"charisma": charisma}
 
 def save_character(character, filename):
     import os 
@@ -215,3 +256,7 @@ if __name__ == "__main__":
     print("\nLeveling up...")
     level_up(new_character)
     display_character(new_character)
+
+    #for extra stas
+    for stat, value in extra_stats.items():
+        print(f"{stat.capitalize()}: {value}")
