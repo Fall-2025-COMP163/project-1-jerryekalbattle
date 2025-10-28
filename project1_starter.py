@@ -3,7 +3,7 @@ COMP 163 - Project 1: Character Creator & Saving/Loading
 Name: Jerryeka Battle
 Date: 10/21/2025
 
-AI Usage: Use ai to see how to format def calculate_stats i changed most of what ai gave me to add more stats to fit my added points
+AI Usage: work in process
 """
 def create_character(name, character_class, heritage=" "):
     """
@@ -18,7 +18,7 @@ def create_character(name, character_class, heritage=" "):
     gold = 100
 
 
-    if heritage.isalpha:
+    if heritage.isalpha():
         gold += 100
 
     strength, magic, health = calculate_stats(character_class, level)
@@ -86,6 +86,20 @@ def calculate_stats(character_class, level):
     pass
 
 def save_character(character, filename):
+
+    # Check if character is a dictionary-like object
+    if type(character) != dict or filename == "":
+        return False
+
+    # Use 'with' to safely open and close file
+    with open(filename, "w") as file:
+        file.write(f"Character Name: {character['name']}\n")
+        file.write(f"Class: {character['class']}\n")
+        file.write(f"Level: {character['level']}\n")
+        file.write(f"Strength: {character['strength']}\n")
+        file.write(f"Magic: {character['magic']}\n")
+        file.write(f"Health: {character['health']}\n")
+        file.write(f"Gold: {character['gold']}\n")
     """
     Saves character to text file in specific format
     Returns: True if successful, False if error occurred
@@ -110,6 +124,21 @@ def load_character(filename):
     """
     # TODO: Implement this function
     # Remember to handle file not found errors
+    if not os.path.exists(filename):
+        return None
+
+    with open(filename, "r") as file:
+        lines = file.readlines()
+
+    character = {}
+    for line in lines:
+        parts = line.strip().split(": ")
+        if len(parts) == 2:
+            key, value = parts
+            key = key.lower().replace("character name", "name")
+            if key in ["level", "strength", "magic", "health", "gold"]:
+                value = int(value)
+            character[key] = value
     pass
 
 def display_character(character):
@@ -127,6 +156,15 @@ def display_character(character):
     Health: 80
     Gold: 100
     """
+    print("=== CHARACTER SHEET ===")
+    print(f"Name: {character['name']}")
+    print(f"Class: {character['class']}")
+    print(f"Level: {character['level']}")
+    print(f"Strength: {character['strength']}")
+    print(f"Magic: {character['magic']}")
+    print(f"Health: {character['health']}")
+    print(f"Gold: {character['gold']}")
+    print("=======================")
     # TODO: Implement this function
     pass
 
@@ -138,6 +176,11 @@ def level_up(character):
     """
     # TODO: Implement this function
     # Remember to recalculate stats for the new level
+    character["level"] += 1
+    strength, magic, health = calculate_stats(character["class"], character["level"])
+    character["strength"] = strength
+    character["magic"] = magic
+    character["health"] = health
     pass
 
 # Main program area (optional - for testing your functions)
@@ -147,10 +190,18 @@ if __name__ == "__main__":
     character_class = input("Choose your class (Warrior, Mage, Rogue, Cleric, Alchemist): ")
     new_character = create_character(name, character_class)
     print("=== CHARACTER CREATOR ===")
-    for key, value in new_character.items():
-        print(f"{key.capitalize()}: {value}")
-    # Example usage:
-    # char = create_character("TestHero", "Warrior")
-    # display_character(char)
-    # save_character(char, "my_character.txt")
-    # loaded = load_character("my_character.txt")
+    display_character(new_character)
+
+    # Save to file
+    save_character(new_character, "my_character.txt")
+
+    # Load back
+    loaded = load_character("my_character.txt")
+    if loaded is not None:
+        print("\nLoaded from file:")
+        display_character(loaded)
+
+    # Level up example
+    print("\nLeveling up...")
+    level_up(new_character)
+    display_character(new_character)
