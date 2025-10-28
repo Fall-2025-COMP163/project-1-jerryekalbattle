@@ -86,7 +86,7 @@ def calculate_stats(character_class, level):
     pass
 
 def save_character(character, filename):
-
+    import os 
     # Check if character is a dictionary-like object
     if type(character) != dict or filename == "":
         return False
@@ -116,7 +116,7 @@ def save_character(character, filename):
     # TODO: Implement this function
     # Remember to handle file errors gracefully
     pass
-
+import os
 def load_character(filename):
     """
     Loads character from text file
