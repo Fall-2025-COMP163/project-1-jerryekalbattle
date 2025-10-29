@@ -6,22 +6,14 @@ Date: 10/21/2025
 AI Usage: used to generate the file part and check error within my code. i also used it to chamge my file to use with
 """
 def create_character(name, character_class, heritage=" "):
-    """
-    Creates a new character dictionary with calculated stats
-    Returns: dictionary with keys: name, class, level, strength, magic, health, gold
-    
-    Example:
-    char = create_character("Aria", "Mage")
-    # Should return: {"name": "Aria", "class": "Mage", "level": 1, "strength": 5, "magic": 15, "health": 80, "gold": 100}
-    """
     level = 1
     gold = 100
-
 
     if heritage.isalpha():
         gold += 100
 
     strength, magic, health = calculate_stats(character_class, level)
+    extras = calculate_extra_stats(character_class, level)
 
     new_character = {
         "name": name,
@@ -33,17 +25,13 @@ def create_character(name, character_class, heritage=" "):
         "health": health,
         "gold": gold
     }
-
+    new_character.update(extras)
     return new_character
 
 def calculate_stats(character_class, level):
     strength = 10
-    dexterity = 17
     magic = 4
     health = 10
-    intelligence = 16
-    wisdom = 14
-    charisma = 18
 
     if character_class.lower() == "warrior":
         strength += 6
@@ -127,7 +115,6 @@ def calculate_extra_stats(character_class, level):
     return {"dexterity": dexterity,"intelligence": intelligence,"wisdom": wisdom,"charisma": charisma}
 
 def save_character(character, filename):
-    import os 
     import os
 
     # Check valid input
@@ -148,6 +135,10 @@ def save_character(character, filename):
         file.write(f"Magic: {character['magic']}\n")
         file.write(f"Health: {character['health']}\n")
         file.write(f"Gold: {character['gold']}\n")
+        file.write(f"dexterity: {character['dexterity']}\n")
+        file.write(f"intelligence: {character['intelligence']}\n")
+        file.write(f"wisdom: {character['wisdom']}\n")
+        file.write(f"charisma: {character['charisma']}\n")
 
     return True
     """
@@ -187,7 +178,7 @@ def load_character(filename):
         if len(parts) == 2:
             key, value = parts
             key = key.lower().replace("character name", "name")
-            if key in ["level", "strength", "magic", "health", "gold"]:
+            if key in ["level", "strength", "magic", "health", "gold", "dexterity", "intelligence", "wisdom", "charisma"]:
                 value = int(value)
             character[key] = value
     pass
@@ -215,6 +206,11 @@ def display_character(character):
     print(f"Magic: {character['magic']}")
     print(f"Health: {character['health']}")
     print(f"Gold: {character['gold']}")
+    print(f"Dexterity: {character['dexterity']}")
+    print(f"Intelligence: {character['intelligence']}")
+    print(f"Wisdom: {character['wisdom']}")
+    print(f"Charisma: {character['charisma']}")
+
     print("=======================")
     # TODO: Implement this function
     pass
@@ -243,6 +239,7 @@ if __name__ == "__main__":
     print("=== CHARACTER CREATOR ===")
     display_character(new_character)
 
+
     # Save to file
     save_character(new_character, "my_character.txt")
 
@@ -257,6 +254,3 @@ if __name__ == "__main__":
     level_up(new_character)
     display_character(new_character)
 
-    #for extra stas
-    for stat, value in extra_stats.items():
-        print(f"{stat.capitalize()}: {value}")

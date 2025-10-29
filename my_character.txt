@@ -1,0 +1,11 @@
+Character Name: Jeryeka
+Class: Mage
+Level: 1
+Strength: 12
+Magic: 14
+Health: 14
+Gold: 100
+dexterity: 11
+intelligence: 16
+wisdom: 15
+charisma: 12
